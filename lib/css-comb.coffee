@@ -2,16 +2,12 @@ CSScomb = require 'csscomb'
 
 path = require 'path'
 
-CssCombView = require './css-comb-view'
 {CompositeDisposable} = require 'atom'
 
 module.exports = Comb =
-  cssCombView: null
   subscriptions: null
 
   activate: (state) ->
-    @cssCombView = new CssCombView(state.cssCombViewState)
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -19,10 +15,6 @@ module.exports = Comb =
 
   deactivate: ->
     @subscriptions.dispose()
-    @cssCombView.destroy()
-
-  serialize: ->
-    cssCombViewState: @cssCombView.serialize()
 
   comb: ->
     filePath = atom.workspace.getActivePaneItem().getPath()
