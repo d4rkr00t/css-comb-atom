@@ -28,5 +28,6 @@ module.exports = Comb =
       @processFile filePath, CSScomb.getConfig('csscomb')
 
   processFile: (filePath, config) ->
+    atom.notifications.addInfo('File processed by csscomb')
     comb = new CSScomb(config)
     comb.processFile(filePath)
