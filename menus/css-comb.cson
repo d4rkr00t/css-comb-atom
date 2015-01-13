@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/creating-a-package#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Run csscomb'
+      'command': 'css-comb:run'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'css-comb'
+      'submenu': [
+        {
+          'label': 'Run'
+          'command': 'css-comb:run'
+        }
+      ]
+    ]
+  }
+]
