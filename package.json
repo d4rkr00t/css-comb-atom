@@ -1,12 +1,12 @@
 {
   "name": "css-comb",
   "main": "./lib/css-comb",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "CSS Comb for Atom",
   "activationCommands": {
     "atom-workspace": "css-comb:run"
   },
-  "repository": "https://github.com/atom/css-comb",
+  "repository": "https://github.com/d4rkr00t/css-comb-atom",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
