@@ -4,7 +4,14 @@ path = require 'path'
 
 {CompositeDisposable} = require 'atom'
 
-module.exports = Comb =
+module.exports =
+
+  # config:
+  #   predef:
+  #     type: 'string'
+  #     default: 'csscomb'
+  #     enum: ['none', 'csscomb', 'zen', 'yandex']
+
   subscriptions: null
 
   activate: (state) ->
@@ -28,6 +35,6 @@ module.exports = Comb =
       @processFile filePath, CSScomb.getConfig('csscomb')
 
   processFile: (filePath, config) ->
-    atom.notifications.addInfo('File processed by csscomb')
     comb = new CSScomb(config)
     comb.processFile(filePath)
+    atom.notifications.addInfo('File processed by csscomb')
