@@ -1,18 +1,31 @@
 CSScomb = require 'csscomb'
 
 path = require 'path'
+fs = require 'fs'
 
 {CompositeDisposable} = require 'atom'
 
-module.exports =
+class Comb
 
-  # config:
-  #   predef:
-  #     type: 'string'
-  #     default: 'csscomb'
-  #     enum: ['none', 'csscomb', 'zen', 'yandex']
+  config:
+    predef:
+      title: 'Predefined configs'
+      description: 'Will be used if config is not found in project directory'
+      type: 'string'
+      default: 'csscomb'
+      enum: ['csscomb', 'zen', 'yandex']
+    customConfig:
+      title: 'Custom config (Full path to file)'
+      description: 'Will be used if config is not found in project directory, has more priority than predefined configs.'
+      type: 'string'
+      default: ''
+    showNotifications:
+      title: 'Notifications'
+      type: 'boolean'
+      default: true
 
   subscriptions: null
+  showNotifications: true
 
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
@@ -24,6 +37,8 @@ module.exports =
     @subscriptions.dispose()
 
   comb: ->
+    @showNotifications = atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
+
     filePath = atom.workspace.getActivePaneItem().getPath()
     configPath = path.join(path.dirname(filePath), '.csscomb.json')
 
@@ -32,9 +47,18 @@ module.exports =
     if configPath
       @processFile filePath, require(configPath)
     else
-      @processFile filePath, CSScomb.getConfig('csscomb')
+      configPath = atom.config.get('css-comb.customConfig')
+
+      if configPath && fs.existsSync(configPath)
+        @processFile filePath, require(configPath)
+      else
+        @processFile filePath, CSScomb.getConfig(atom.config.get('css-comb.predef'))
 
   processFile: (filePath, config) ->
     comb = new CSScomb(config)
     comb.processFile(filePath)
-    atom.notifications.addInfo('File processed by csscomb')
+
+    if @showNotifications
+      atom.notifications.addInfo('File processed by csscomb')
+
+module.exports = new Comb
