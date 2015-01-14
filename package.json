@@ -1,7 +1,7 @@
 {
   "name": "css-comb",
   "main": "./lib/css-comb",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "CSS Comb for Atom",
   "activationCommands": {
     "atom-workspace": "css-comb:run"
