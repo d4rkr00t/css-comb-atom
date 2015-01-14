@@ -1,5 +1,11 @@
 # css-comb package
 
-A short description of your package.
+CSS Comb for Atom.
 
-![A screenshot of your package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+[CSSComb](https://github.com/csscomb/csscomb.js)
+
+## Usage
+
+Press `ctrl+alt+c` to format you styles.
+
+Plugin searches for `.csscomb.json` until it has been found and if it hasn't plugin takes default css-comb config.

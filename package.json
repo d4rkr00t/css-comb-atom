@@ -2,7 +2,7 @@
   "name": "css-comb",
   "main": "./lib/css-comb",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "CSS Comb for Atom",
   "activationCommands": {
     "atom-workspace": "css-comb:run"
   },
