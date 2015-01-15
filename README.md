@@ -19,9 +19,10 @@ Plugin searches for `.csscomb.json` until it has been found and if it hasn't plu
 * You can choose 1 of 3 predefined configs or specify your own,
   custom config that will be used if there aren't any configs in project directory.
 * You can disable config searching in project directory and use predefined or custom config.
+* Possible to process only selected styles.
 
 ## TODO:
 
 * ~~Settings page for defining default config~~
 * ~~Settings for disabling config search and using instead of it predefined or custom defined config~~
-* Ability to process only selected lines
+* ~~Ability to process only selected lines~~
