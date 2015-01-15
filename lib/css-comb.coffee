@@ -55,22 +55,62 @@ module.exports =
     filePath = atom.workspace.getActivePaneItem().getPath()
     config = @_getConfig(filePath)
 
-    @_processFile(filePath, config)
+    selectedText = @_getSelectedText()
+
+    if selectedText
+      @_processSelection(selectedText, config)
+    else
+      @_processFile(filePath, config)
 
   #
   # PRIVATE
   #
 
+  ###*
+  # Process whole file by csscomb
+  # @param {String} filePath file to process
+  # @param {Object} config csscomb config
+  ###
   _processFile: (filePath, config) ->
     comb = new CSScomb(config)
     comb.processFile(filePath)
 
-    if @_showNotifications()
-      atom.notifications.addInfo('File processed by csscomb')
+    @_showNotifications('File processed by csscomb')
 
+  ###*
+  # Process only selection by csscomb
+  # @param {String} string to process
+  # @param {Object} config csscomb config
+  ###
+  _processSelection: (string, config) ->
+    comb = new CSScomb(config)
+    processedString = comb.processString(string)
+    textEditor = atom.workspace.getActiveTextEditor()
+
+    textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString)
+
+    @_showNotifications('Lines processed by csscomb')
+
+  ###*
+  # Show info notification
+  # @param {String} message notification text
+  ###
+  _showInfoNotification: (message) ->
+    if @_showNotifications()
+      atom.notifications.addInfo(message)
+
+  ###*
+  # Check if notifications should be shown
+  # @return {Boolean}
+  ###
   _showNotifications: ->
     atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
 
+  ###*
+  # Search and load csscomb config
+  # @param {String} filePath from where start searching
+  # @return {Object} csscomb config
+  ###
   _getConfig: (filePath) ->
     if !atom.config.get('css-comb.shouldNotSearchConfig')
       configPath = path.join(path.dirname(filePath), '.csscomb.json')
@@ -85,3 +125,10 @@ module.exports =
         return require(configPath)
       else
         return CSScomb.getConfig(atom.config.get('css-comb.predef'))
+
+  ###*
+  # Get selected text of current text editor tab
+  # @return {String}
+  ###
+  _getSelectedText: ->
+    atom.workspace.getActiveTextEditor().getSelectedText()
