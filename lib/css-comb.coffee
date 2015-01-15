@@ -5,7 +5,10 @@ fs = require 'fs'
 
 {CompositeDisposable} = require 'atom'
 
-class Comb
+module.exports =
+  #
+  # CONFIG
+  #
 
   config:
     shouldNotSearchConfig:
@@ -29,8 +32,15 @@ class Comb
       type: 'boolean'
       default: true
 
+  #
+  # PROPS
+  #
+
   subscriptions: null
-  showNotifications: true
+
+  #
+  # PUBLIC
+  #
 
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
@@ -42,29 +52,36 @@ class Comb
     @subscriptions.dispose()
 
   comb: ->
-    @showNotifications = atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
-
     filePath = atom.workspace.getActivePaneItem().getPath()
+    config = @_getConfig(filePath)
 
+    @_processFile(filePath, config)
+
+  #
+  # PRIVATE
+  #
+
+  _processFile: (filePath, config) ->
+    comb = new CSScomb(config)
+    comb.processFile(filePath)
+
+    if @_showNotifications()
+      atom.notifications.addInfo('File processed by csscomb')
+
+  _showNotifications: ->
+    atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
+
+  _getConfig: (filePath) ->
     if !atom.config.get('css-comb.shouldNotSearchConfig')
       configPath = path.join(path.dirname(filePath), '.csscomb.json')
       configPath = CSScomb.getCustomConfigPath(configPath)
 
     if configPath
-      @processFile filePath, require(configPath)
+      return require(configPath)
     else
       configPath = atom.config.get('css-comb.customConfig')
 
       if configPath && fs.existsSync(configPath)
-        @processFile filePath, require(configPath)
+        return require(configPath)
       else
-        @processFile filePath, CSScomb.getConfig(atom.config.get('css-comb.predef'))
-
-  processFile: (filePath, config) ->
-    comb = new CSScomb(config)
-    comb.processFile(filePath)
-
-    if @showNotifications
-      atom.notifications.addInfo('File processed by csscomb')
-
-module.exports = new Comb
+        return CSScomb.getConfig(atom.config.get('css-comb.predef'))
