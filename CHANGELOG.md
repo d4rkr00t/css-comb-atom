@@ -1,8 +1,11 @@
-## 0.2.1 — Menu labels
+## 0.3.0 — 15.01.2015
+* Settings for disable config searching in project directory and using predefined or custom config from plugin settings
+
+## 0.2.1 — 14.01.2015
 * Menu label has been changed to CSSComb
 
-## 0.2.0 — Settings
+## 0.2.0 — 14.01.2015
 * Settings for defining csscomb default config
 
-## 0.1.0 - First Release
+## 0.1.0 - 14.01.2015
 * First version

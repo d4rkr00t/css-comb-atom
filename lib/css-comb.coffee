@@ -8,6 +8,11 @@ fs = require 'fs'
 class Comb
 
   config:
+    shouldNotSearchConfig:
+      title: 'Disable config searching'
+      description: 'Disable config searching in project directory and use predefined or custom config'
+      type: 'boolean'
+      default: false
     predef:
       title: 'Predefined configs'
       description: 'Will be used if config is not found in project directory'
@@ -40,9 +45,10 @@ class Comb
     @showNotifications = atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
 
     filePath = atom.workspace.getActivePaneItem().getPath()
-    configPath = path.join(path.dirname(filePath), '.csscomb.json')
 
-    configPath = CSScomb.getCustomConfigPath(configPath)
+    if !atom.config.get('css-comb.shouldNotSearchConfig')
+      configPath = path.join(path.dirname(filePath), '.csscomb.json')
+      configPath = CSScomb.getCustomConfigPath(configPath)
 
     if configPath
       @processFile filePath, require(configPath)
