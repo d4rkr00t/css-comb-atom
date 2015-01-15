@@ -15,11 +15,11 @@ Plugin searches for `.csscomb.json` until it has been found and if it hasn't plu
 ## Features
 
 * Search config in project directory.
-* Notifications, you can turn off.
-* You can choose 1 of 3 predefined configs or specify your own,
+* Notifications, you can turn it off.
+* Choose 1 of 3 predefined configs or specify your own,
   custom config that will be used if there aren't any configs in project directory.
-* You can disable config searching in project directory and use predefined or custom config.
-* Possible to process only selected styles.
+* Disabling config searching in project directory and use predefined or custom config.
+* Selected lines processing.
 
 ## TODO:
 
