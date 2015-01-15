@@ -15,4 +15,5 @@ Plugin searches for `.csscomb.json` until it has been found and if it hasn't plu
 ## TODO:
 
 * ~~Settings page for defining default config~~
+* Settings for disabling config search and using instead of it predefined or custom defined config
 * Ability to process only selected lines
