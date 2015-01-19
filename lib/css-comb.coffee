@@ -75,7 +75,7 @@ module.exports =
     comb = new CSScomb(config)
     comb.processFile(filePath)
 
-    @_showNotifications('File processed by csscomb')
+    @_showInfoNotification('File processed by csscomb')
 
   ###*
   # Process only selection by csscomb
