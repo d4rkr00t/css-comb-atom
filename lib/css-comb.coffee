@@ -84,27 +84,45 @@ module.exports =
   ###
   _processSelection: (string, config) ->
     comb = new CSScomb(config)
-    processedString = comb.processString(string)
-    textEditor = atom.workspace.getActiveTextEditor()
 
-    textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString)
+    try
+        processedString = comb.processString(string)
+        textEditor = atom.workspace.getActiveTextEditor()
+        textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString)
 
-    @_showNotifications('Lines processed by csscomb')
+        @_showNotifications('Lines processed by csscomb')
+    catch error
+        @_showErrorNotification(error.message)
 
   ###*
   # Show info notification
   # @param {String} message notification text
   ###
   _showInfoNotification: (message) ->
-    if @_showNotifications()
+    if @_isShowInfoNotification()
       atom.notifications.addInfo(message)
 
   ###*
-  # Check if notifications should be shown
+  # Show error notification
+  # @param {String} message notification text
+  ###
+  _showErrorNotification: (message) ->
+    if @_isShowErrorNotification()
+      atom.notifications.addError(message)
+
+  ###*
+  # Check if info notifications should be shown
   # @return {Boolean}
   ###
-  _showNotifications: ->
+  _isShowInfoNotification: ->
     atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo
+
+  ###*
+  # Check if error notifications should be shown
+  # @return {Boolean}
+  ###
+  _isShowErrorNotification: ->
+    atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addError
 
   ###*
   # Search and load csscomb config
