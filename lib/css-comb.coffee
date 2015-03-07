@@ -3,6 +3,8 @@ CSScomb = require 'csscomb'
 path = require 'path'
 fs = require 'fs'
 
+allowedGrammas = ['css', 'less', 'scss', 'sass', 'styl']
+
 {CompositeDisposable} = require 'atom'
 
 module.exports =
@@ -31,6 +33,11 @@ module.exports =
       title: 'Notifications'
       type: 'boolean'
       default: true
+    shouldUpdateOnSave:
+      title: 'On Save'
+      description: 'Process file on every save.'
+      type: 'boolean'
+      default: false
 
   #
   # PROPS
@@ -48,8 +55,17 @@ module.exports =
 
     @subscriptions.add atom.commands.add 'atom-workspace', 'css-comb:run': => @comb()
 
+    @editorObserver = atom.workspace.observeTextEditors (editor) =>
+      @handleEvents(editor)
+
   deactivate: ->
     @subscriptions.dispose()
+    @editorObserver.dispose()
+
+  handleEvents: (editor) ->
+    editor.getBuffer().onWillSave =>
+      if @_isOnSave() && @_isAllowedGrama(editor)
+        @comb();
 
   comb: ->
     filePath = atom.workspace.getActivePaneItem().getPath()
@@ -93,6 +109,7 @@ module.exports =
         @_showNotifications('Lines processed by csscomb')
     catch error
         @_showErrorNotification(error.message)
+        console.error error
 
   ###*
   # Show info notification
@@ -123,6 +140,20 @@ module.exports =
   ###
   _isShowErrorNotification: ->
     atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addError
+
+  ###*
+  # Check if on save option enabled
+  # @return {Boolean}
+  ###
+  _isOnSave: ->
+    atom.config.get('css-comb.shouldUpdateOnSave')
+
+  ###*
+  # Check if file is in allowed gramma list
+  # @return {Boolean}
+  ###
+  _isAllowedGrama: (editor) ->
+    editor.getGrammar().name.toLowerCase() in allowedGrammas
 
   ###*
   # Search and load csscomb config

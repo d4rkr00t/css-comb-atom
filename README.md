@@ -20,6 +20,7 @@ Plugin searches for `.csscomb.json` until it has been found and if it hasn't plu
   custom config that will be used if there aren't any configs in project directory.
 * Disabling config searching in project directory and use predefined or custom config.
 * Selected lines processing.
+* OnSave option for processing file on every save
 
 ## TODO:
 
