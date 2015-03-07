@@ -13,8 +13,5 @@
   },
   "dependencies": {
     "csscomb": "^3.0.4"
-  },
-  "devDependencies": {
-    "babel": "^4.7.3"
   }
 }

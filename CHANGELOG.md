@@ -1,3 +1,6 @@
+## 2.0.1 - 07.03.2015
+* Removed babel from dev dependencies
+
 ## 2.0.0 - 07.03.2015
 * Use es6 with babel and precomiple step (Now I'm free from coffescript!)
 
