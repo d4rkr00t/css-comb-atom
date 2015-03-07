@@ -1,3 +1,6 @@
+## 2.0.0 - 07.03.2015
+* Use es6 with babel and precomiple step (Now I'm free from coffescript!)
+
 ## 1.2.0 — 07.03.2015
 * OnSave option to process file on every save
 * CSSComb updated to version 3.0.4
