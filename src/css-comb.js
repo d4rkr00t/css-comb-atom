@@ -1,12 +1,13 @@
-"use strict";
+var CSScomb = require('csscomb'),
 
-var CSScomb = require("csscomb"),
-    path = require("path"),
-    fs = require("fs"),
-    CompositeDisposable = require("atom").CompositeDisposable,
-    allowedGrammas = ["css", "less", "scss", "sass", "styl"];
+    path = require('path'),
+    fs = require('fs'),
 
-module.exports = {
+    CompositeDisposable = require('atom').CompositeDisposable,
+
+    allowedGrammas = ['css', 'less', 'scss', 'sass', 'styl'];
+
+export default {
     /**
      * @private
      */
@@ -20,54 +21,51 @@ module.exports = {
      */
     config: {
         shouldNotSearchConfig: {
-            title: "Disable config searching",
-            description: "Disable config searching in project directory and use predefined or custom config",
-            type: "boolean",
-            "default": false
+            title: 'Disable config searching',
+            description: 'Disable config searching in project directory and use predefined or custom config',
+            type: 'boolean',
+            'default': false
         },
         predef: {
-            title: "Predefined configs",
-            description: "Will be used if config is not found in project directory",
-            type: "string",
-            "default": "csscomb",
-            "enum": ["csscomb", "zen", "yandex"]
+            title: 'Predefined configs',
+            description: 'Will be used if config is not found in project directory',
+            type: 'string',
+            'default': 'csscomb',
+            'enum': ['csscomb', 'zen', 'yandex']
         },
         customConfig: {
-            title: "Custom config (Full path to file)",
-            description: "Will be used if config is not found in project directory," + " has more priority than predefined configs.",
-            type: "string",
-            "default": ""
+            title: 'Custom config (Full path to file)',
+            description: 'Will be used if config is not found in project directory,' +
+                         ' has more priority than predefined configs.',
+            type: 'string',
+            'default': ''
         },
         showNotifications: {
-            title: "Notifications",
-            type: "boolean",
-            "default": true
+            title: 'Notifications',
+            type: 'boolean',
+            'default': true
         },
         shouldUpdateOnSave: {
-            title: "On Save",
-            description: "Process file on every save.",
-            type: "boolean",
-            "default": false
+            title: 'On Save',
+            description: 'Process file on every save.',
+            type: 'boolean',
+            'default': false
         }
     },
 
-    activate: function activate() {
-        var _this = this;
-
+    activate() {
         this._subscriptions = new CompositeDisposable();
 
-        this._subscriptions.add(atom.commands.add("atom-workspace"), {
-            "css-comb:run": function () {
-                _this.comb();
+        this._subscriptions.add(atom.commands.add('atom-workspace'), {
+            'css-comb:run': () => {
+                this.comb();
             }
         });
 
-        this._editorObserver = atom.workspace.observeTextEditors(function (editor) {
-            return _this.handleEvents(editor);
-        });
+        this._editorObserver = atom.workspace.observeTextEditors(editor => this.handleEvents(editor));
     },
 
-    deactivate: function deactivate() {
+    deactivate() {
         this._subscriptions.dispose();
         this._editorObserver.dispose();
     },
@@ -75,12 +73,10 @@ module.exports = {
     /**
      * @private
      */
-    handleEvents: function handleEvents(editor) {
-        var _this = this;
-
-        editor.getBuffer().onWillSave(function () {
-            if (_this._isOnSave() && _this._isAllowedGrama(editor)) {
-                _this.comb();
+    handleEvents(editor) {
+        editor.getBuffer().onWillSave(() => {
+            if (this._isOnSave() && this._isAllowedGrama(editor)) {
+                this.comb();
             }
         });
     },
@@ -88,7 +84,7 @@ module.exports = {
     /**
      * @private
      */
-    comb: function comb() {
+    comb() {
         var filePath = atom.workspace.getActivePaneItem().getPath(),
             config = this._getConfig(filePath),
             selectedText = this._getSelectedText();
@@ -107,13 +103,13 @@ module.exports = {
      * @param {String} filePath — file to process
      * @param {Object} config — csscomb config
      */
-    _processFile: function _processFile(filePath, config) {
+    _processFile(filePath, config) {
         var comb = new CSScomb(config);
 
         try {
             comb.processFile(filePath);
 
-            this._showInfoNotification("File processed by csscomb");
+            this._showInfoNotification('File processed by csscomb');
         } catch (err) {
             this._showErrorNotification(err.message);
             console.error(err);
@@ -127,7 +123,7 @@ module.exports = {
      * @param {String} string to process
      * @param {Object} config csscomb config
      */
-    _processSelection: function _processSelection(string, config) {
+    _processSelection(string, config) {
         var comb = new CSScomb(config);
 
         try {
@@ -136,7 +132,7 @@ module.exports = {
 
             textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString);
 
-            this._showNotifications("Lines processed by csscomb");
+            this._showNotifications('Lines processed by csscomb');
         } catch (err) {
             this._showErrorNotification(err.message);
             console.error(err);
@@ -149,7 +145,7 @@ module.exports = {
      *
      * @param {String} message — notification text
      */
-    _showInfoNotification: function _showInfoNotification(message) {
+    _showInfoNotification(message) {
         if (this._isShowInfoNotification()) {
             atom.notifications.addInfo(message);
         }
@@ -161,7 +157,7 @@ module.exports = {
      *
      * @param {String} message notification text
      */
-    _showErrorNotification: function _showErrorNotification(message) {
+    _showErrorNotification(message) {
         if (this._isShowErrorNotification()) {
             atom.notifications.addError(message);
         }
@@ -173,8 +169,8 @@ module.exports = {
      *
      * @return {Boolean}
      */
-    _isShowInfoNotification: function _isShowInfoNotification() {
-        return atom.config.get("css-comb.showNotifications") && atom.notifications && atom.notifications.addInfo;
+    _isShowInfoNotification() {
+        return atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo;
     },
 
     /**
@@ -183,8 +179,8 @@ module.exports = {
      *
      * @return {Boolean}
      */
-    _isShowErrorNotification: function _isShowErrorNotification() {
-        return atom.config.get("css-comb.showNotifications") && atom.notifications && atom.notifications.addError;
+    _isShowErrorNotification() {
+        return atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addError;
     },
 
     /**
@@ -193,8 +189,8 @@ module.exports = {
      *
      * @return {Boolean}
      */
-    _isOnSave: function _isOnSave() {
-        return atom.config.get("css-comb.shouldUpdateOnSave");
+    _isOnSave() {
+        return atom.config.get('css-comb.shouldUpdateOnSave');
     },
 
     /**
@@ -203,7 +199,7 @@ module.exports = {
      *
      * @return {Boolean}
      */
-    _isAllowedGrama: function _isAllowedGrama(editor) {
+    _isAllowedGrama(editor) {
         return allowedGrammas.indexOf(editor.getGrammar().name.toLowerCase()) !== -1;
     },
 
@@ -215,23 +211,23 @@ module.exports = {
      *
      * @return {Object} csscomb config
      */
-    _getConfig: function _getConfig(filePath) {
+    _getConfig(filePath) {
         var configPath;
 
-        if (!atom.config.get("css-comb.shouldNotSearchConfig")) {
-            configPath = path.join(path.dirname(filePath), ".csscomb.json");
+        if (!atom.config.get('css-comb.shouldNotSearchConfig')) {
+            configPath = path.join(path.dirname(filePath), '.csscomb.json');
             configPath = CSScomb.getCustomConfigPath(configPath);
         }
 
         if (configPath) {
             return require(configPath);
         } else {
-            configPath = atom.config.get("css-comb.customConfig");
+            configPath = atom.config.get('css-comb.customConfig');
 
             if (configPath && fs.existsSync(configPath)) {
                 return require(configPath);
             } else {
-                return CSScomb.getConfig(atom.config.get("css-comb.predef"));
+                return CSScomb.getConfig(atom.config.get('css-comb.predef'));
             }
         }
     },
@@ -242,8 +238,7 @@ module.exports = {
      *
      * @return {String}
      */
-    _getSelectedText: function _getSelectedText() {
+    _getSelectedText() {
         return atom.workspace.getActiveTextEditor().getSelectedText();
     }
 };
-

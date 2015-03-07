@@ -5,10 +5,16 @@
   "description": "CSS Comb for Atom",
   "repository": "https://github.com/d4rkr00t/css-comb-atom",
   "license": "MIT",
+  "scripts": {
+    "build": "./node_modules/.bin/babel src/css-comb.js > lib/css-comb.js"
+  },
   "engines": {
     "atom": ">0.50.0"
   },
   "dependencies": {
     "csscomb": "^3.0.4"
+  },
+  "devDependencies": {
+    "babel": "^4.7.3"
   }
 }
