@@ -9,6 +9,6 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "csscomb": "^3.0.0"
+    "csscomb": "^3.0.4"
   }
 }

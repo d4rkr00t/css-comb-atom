@@ -1,3 +1,7 @@
+## 1.2.0 — 07.03.2015
+* OnSave option to process file on every save
+* CSSComb updated to version 3.0.4
+
 ## 1.0.0 — 15.01.2015
 * Ability to process only selected lines
 
