@@ -60,11 +60,11 @@ export default {
     activate() {
         this._subscriptions = new CompositeDisposable();
 
-        this._subscriptions.add(atom.commands.add('atom-workspace'), {
+        this._subscriptions.add(atom.commands.add('atom-workspace', {
             'css-comb:run': () => {
                 this.comb();
             }
-        });
+        }));
 
         this._editorObserver = atom.workspace.observeTextEditors(editor => this.handleEvents(editor));
     },
@@ -93,8 +93,8 @@ export default {
             config = this._getConfig(filePath),
             selectedText = this._getSelectedText();
 
-        if (selectedText && !this._isOnSave()) {
-            this._processSelection(selectedText, config);
+        if (selectedText) {
+            !this._isOnSave() && this._processSelection(selectedText, config);
         } else {
             this._processFile(filePath, config);
         }

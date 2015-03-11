@@ -1,3 +1,6 @@
+## 2.0.3 - 11.03.2015
+* Fix css-comb plugin now again work without on save option.
+
 ## 2.0.2 - 11.03.2015
 * Fix loading config with ~ (home directory) in path.
 
