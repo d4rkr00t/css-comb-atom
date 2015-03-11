@@ -1,3 +1,6 @@
+## 2.0.2 - 11.03.2015
+* Fix loading config with ~ (home directory) in path.
+
 ## 2.0.1 - 07.03.2015
 * Removed babel from dev dependencies
 

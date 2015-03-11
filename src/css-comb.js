@@ -5,7 +5,11 @@ var CSScomb = require('csscomb'),
 
     CompositeDisposable = require('atom').CompositeDisposable,
 
-    allowedGrammas = ['css', 'less', 'scss', 'sass', 'styl'];
+    allowedGrammas = ['css', 'less', 'scss', 'sass', 'styl'],
+
+    getUserHome = function getUserHome () {
+        return process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+    };
 
 export default {
     /**
@@ -220,12 +224,16 @@ export default {
         }
 
         if (configPath) {
-            return require(configPath);
+            return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
         } else {
             configPath = atom.config.get('css-comb.customConfig');
 
+            if (configPath && configPath.match(/^\~/)) {
+                configPath = path.join(getUserHome(), configPath.replace(/^\~\//, ''));
+            }
+
             if (configPath && fs.existsSync(configPath)) {
-                return require(configPath);
+                return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
             } else {
                 return CSScomb.getConfig(atom.config.get('css-comb.predef'));
             }
