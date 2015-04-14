@@ -6,7 +6,8 @@
   "repository": "https://github.com/d4rkr00t/css-comb-atom",
   "license": "MIT",
   "scripts": {
-    "build": "babel src/css-comb.js > lib/css-comb.js"
+    "build": "babel src/css-comb.js --out-file lib/css-comb.js",
+    "watch": "babel src/css-comb.js --out-file lib/css-comb.js --watch"
   },
   "engines": {
     "atom": ">0.50.0"

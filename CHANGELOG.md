@@ -1,3 +1,6 @@
+## 2.0.4 - 14.04.2015
+* Correct grammar for css-comb selection processing.
+
 ## 2.0.3 - 11.03.2015
 * Fix css-comb plugin now again work without on save option.
 
@@ -23,7 +26,7 @@ Now plugin can work in both ways it means you can process whole file or only sel
 * Settings for disable config searching in project directory and using predefined or custom config from plugin settings
 
 ## 0.2.1 — 14.01.2015
-* Menu label has been changed to CSSComb
+* Menu label changed to CSSComb
 
 ## 0.2.0 — 14.01.2015
 * Settings for defining csscomb default config

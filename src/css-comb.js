@@ -131,12 +131,14 @@ export default {
         var comb = new CSScomb(config);
 
         try {
-            var processedString = comb.processString(string),
-                textEditor = atom.workspace.getActiveTextEditor();
+            var textEditor = atom.workspace.getActiveTextEditor(),
+                processedString = comb.processString(string, {
+                    syntax: textEditor.getGrammar().name.toLowerCase()
+                });
 
             textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString);
 
-            this._showNotifications('Lines processed by csscomb');
+            this._showInfoNotification('Lines processed by csscomb');
         } catch (err) {
             this._showErrorNotification(err.message);
             console.error(err);
