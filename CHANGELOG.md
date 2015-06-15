@@ -1,3 +1,6 @@
+## 2.1.1 - 15.06.2015
+* Removed babel from dev dependencies.
+
 ## 2.1.0 - 15.06.2015
 * Update csscomb to 3.1.7.
 * Added highly experimental (unstable) feature for processing stylus as sass, works only when processing selection, and may break on everything. Use at your own risk.
