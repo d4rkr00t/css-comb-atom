@@ -54,6 +54,15 @@ export default {
             description: 'Process file on every save.',
             type: 'boolean',
             'default': false
+        },
+        processStylus: {
+            title: 'Process stylus as sass',
+            description: `
+                !WARNING! Highly unstable feature, works only when processing selection, and may break on everything.
+                Use at your own risk.
+            `,
+            type: 'boolean',
+            'default': false
         }
     },
 
@@ -132,17 +141,41 @@ export default {
 
         try {
             var textEditor = atom.workspace.getActiveTextEditor(),
-                processedString = comb.processString(string, {
-                    syntax: textEditor.getGrammar().name.toLowerCase()
-                });
+                syntax = this._getSyntax(textEditor),
+                processedString;
 
-            textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString);
+            if (syntax !== 'stylus') {
+                processedString = comb.processString(string, { syntax });
 
-            this._showInfoNotification('Lines processed by csscomb');
+                textEditor.setTextInBufferRange(textEditor.getSelectedBufferRange(), processedString);
+
+                this._showInfoNotification('Lines processed by csscomb');
+            } else {
+                this._showErrorNotification('Stylus is not supported yet!');
+            }
+
         } catch (err) {
             this._showErrorNotification(err.message);
             console.error(err);
         }
+    },
+
+    /**
+     * Gets syntax from text editor
+     * @private
+     *
+     * @param {Object} textEditor
+     *
+     * @return {String}
+     */
+    _getSyntax(textEditor) {
+        var syntax = textEditor.getGrammar().name.toLowerCase();
+
+        if (atom.config.get('css-comb.processStylus')) {
+            syntax = syntax === 'stylus' ? 'sass' : syntax;
+        }
+
+        return syntax;
     },
 
     /**
