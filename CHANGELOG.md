@@ -1,3 +1,7 @@
+## 2.1.0 - 15.06.2015
+* Update csscomb to 3.1.7.
+* Added highly experimental (unstable) feature for processing stylus as sass, works only when processing selection, and may break on everything. Use at your own risk.
+
 ## 2.0.4 - 14.04.2015
 * Correct grammar for css-comb selection processing.
 
