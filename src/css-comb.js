@@ -96,13 +96,16 @@ export default {
      */
     comb() {
         var filePath = atom.workspace.getActivePaneItem().getPath(),
-            config = this._getConfig(filePath),
-            selectedText = this._getSelectedText();
+            config = this._getConfig(filePath);
 
         if (selectedText) {
+            var selectedText = this._getSelectedText();
+
             !this._isOnSave() && this._processSelection(selectedText, config);
         } else {
-            this._processFile(filePath, config);
+            var text = this._getText();
+
+            this._processFile(text, config);
         }
     },
 
@@ -110,14 +113,17 @@ export default {
      * Process whole file be csscomb
      * @private
      *
-     * @param {String} filePath — file to process
+     * @param {String} text — content of file to process
      * @param {Object} config — csscomb config
      */
-    _processFile(filePath, config) {
-        var comb = new CSScomb(config);
+    _processFile(text, config) {
+        const comb = new CSScomb(config);
+        const textEditor = atom.workspace.getActiveTextEditor();
+        const syntax = this._getSyntax(textEditor);
 
         try {
-            comb.processFile(filePath);
+            const processedString = comb.processString(text, { syntax });
+            textEditor.setText(processedString);
 
             this._showInfoNotification('File processed by csscomb');
         } catch (err) {
@@ -280,5 +286,15 @@ export default {
      */
     _getSelectedText() {
         return atom.workspace.getActiveTextEditor().getSelectedText();
+    },
+
+    /**
+     * Return whole text for current active editor
+     * @private
+     *
+     * @returns {String}
+     */
+    _getText() {
+        return atom.workspace.getActiveTextEditor().getText();
     }
 };
