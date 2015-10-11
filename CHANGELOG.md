@@ -1,4 +1,4 @@
-## 2.2.0 - 11.10.2015
+## 2.3.0 - 11.10.2015
 * Return babel to dev dependencies.
 * Process file on fly by using processString instead of processFile.
 * Update csscomb to version 3.1.8
