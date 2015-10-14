@@ -1,4 +1,6 @@
 # css-comb package
+[![Current version](https://img.shields.io/apm/v/css-comb.svg)](https://atom.io/packages/css-comb)
+[![Downloads](https://img.shields.io/apm/dm/css-comb.svg)](https://atom.io/packages/css-comb)
 
 CSS Comb for Atom.
 
