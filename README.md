@@ -1,8 +1,6 @@
-# css-comb package
+# css-comb for Arom
 [![Current version](https://img.shields.io/apm/v/css-comb.svg)](https://atom.io/packages/css-comb)
 [![Downloads](https://img.shields.io/apm/dm/css-comb.svg)](https://atom.io/packages/css-comb)
-
-CSS Comb for Atom.
 
 [CSSComb](https://github.com/csscomb/csscomb.js)
 
@@ -22,10 +20,5 @@ Plugin searches for `.csscomb.json` until it has been found and if it hasn't plu
   custom config that will be used if there aren't any configs in project directory.
 * Disabling config searching in project directory and use predefined or custom config.
 * Selected lines processing.
-* OnSave option for processing file on every save
-
-## TODO:
-
-* ~~Settings page for defining default config~~
-* ~~Settings for disabling config search and using instead of it predefined or custom defined config~~
-* ~~Ability to process only selected lines~~
+* OnSave option for processing file on every save.
+* No need saving file to process it.
