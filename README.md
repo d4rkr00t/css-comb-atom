@@ -1,4 +1,4 @@
-# css-comb for Arom
+# css-comb for Atom
 [![Current version](https://img.shields.io/apm/v/css-comb.svg)](https://atom.io/packages/css-comb)
 [![Downloads](https://img.shields.io/apm/dm/css-comb.svg)](https://atom.io/packages/css-comb)
 
