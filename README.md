@@ -1,6 +1,9 @@
 # css-comb for Atom
 [![Current version](https://img.shields.io/apm/v/css-comb.svg)](https://atom.io/packages/css-comb)
 [![Downloads](https://img.shields.io/apm/dm/css-comb.svg)](https://atom.io/packages/css-comb)
+[![Github Issues](https://img.shields.io/github/issues/d4rkr00t/css-comb-atom.svg)](https://github.com/d4rkr00t/css-comb-atom/issues)
+![Dependencies](https://david-dm.org/d4rkr00t/css-comb-atom.svg)
+[![License](https://img.shields.io/apm/l/css-comb.svg)](http://opensource.org/licenses/MIT)
 
 [CSSComb](https://github.com/csscomb/csscomb.js)
 
