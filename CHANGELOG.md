@@ -1,3 +1,7 @@
+## 2.4.0 - 16.10.2015
+* Split package loading and initializtion to two separate files that dramaticaly improves package load time from 50ms to 5ms.
+* Use babel loose mode for classes and modules.
+
 ## 2.3.0 - 11.10.2015
 * Return babel to dev dependencies.
 * Process file on fly by using processString instead of processFile.
