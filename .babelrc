@@ -1,0 +1,6 @@
+{
+  "loose": [
+    "es6.classes",
+    "es6.modules"
+  ]
+}

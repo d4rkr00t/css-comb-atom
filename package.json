@@ -1,13 +1,13 @@
 {
   "name": "css-comb",
-  "main": "./lib/css-comb",
+  "main": "./lib/main",
   "version": "2.3.0",
   "description": "CSS Comb for Atom",
   "repository": "https://github.com/d4rkr00t/css-comb-atom",
   "license": "MIT",
   "scripts": {
-    "build": "babel src/css-comb.js --out-file lib/css-comb.js",
-    "watch": "babel src/css-comb.js --out-file lib/css-comb.js --watch"
+    "build": "babel -d ./lib ./src",
+    "watch": "babel -d ./lib ./src --watch"
   },
   "engines": {
     "atom": ">0.50.0"

@@ -11,60 +11,8 @@ function getUserHome() {
   return process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
 }
 
-export default {
-
-  /**
-   * @private
-   */
-  _subscriptions: null,
-  _editorObserver: null,
-
-  /**
-   * Config
-   *
-   * @type {Object}
-   */
-  config: {
-    shouldNotSearchConfig: {
-      title: 'Disable config searching',
-      description: 'Disable config searching in project directory and use predefined or custom config',
-      type: 'boolean',
-      default: false
-    },
-    predef: {
-      title: 'Predefined configs',
-      description: 'Will be used if config is not found in project directory',
-      type: 'string',
-      default: 'csscomb',
-      enum: ['csscomb', 'zen', 'yandex']
-    },
-    customConfig: {
-      title: 'Custom config (Full path to file)',
-      description: 'Will be used if config is not found in project directory,'
-        + ' has more priority than predefined configs.',
-      type: 'string',
-      default: ''
-    },
-    showNotifications: {
-      title: 'Notifications',
-      type: 'boolean',
-      default: true
-    },
-    shouldUpdateOnSave: {
-      title: 'On Save',
-      description: 'Process file on every save.',
-      type: 'boolean',
-      default: false
-    },
-    processStylus: {
-      title: 'Process stylus as sass',
-      description: '!WARNING! Highly unstable feature, works only when processing selection, and may break on everything. Use at your own risk.',
-      type: 'boolean',
-      default: false
-    }
-  },
-
-  activate() {
+export default class CssComb {
+  constructor() {
     this._subscriptions = new CompositeDisposable();
 
     this._subscriptions.add(atom.commands.add('atom-workspace', {
@@ -72,12 +20,12 @@ export default {
     }));
 
     this._editorObserver = atom.workspace.observeTextEditors(editor => this.handleEvents(editor));
-  },
+  }
 
   deactivate() {
     this._subscriptions.dispose();
     this._editorObserver.dispose();
-  },
+  }
 
   /**
    * @private
@@ -90,7 +38,7 @@ export default {
         this.comb();
       }
     });
-  },
+  }
 
   /**
    * @private
@@ -107,7 +55,7 @@ export default {
 
       this._processFile(text, config);
     }
-  },
+  }
 
   /**
    * Process whole file be csscomb
@@ -130,7 +78,7 @@ export default {
       this._showErrorNotification(err.message);
       console.error(err);
     }
-  },
+  }
 
   /**
    * Process only selection by csscomb
@@ -159,7 +107,7 @@ export default {
       this._showErrorNotification(err.message);
       console.error(err);
     }
-  },
+  }
 
   /**
    * Gets syntax from text editor
@@ -177,7 +125,7 @@ export default {
     }
 
     return syntax;
-  },
+  }
 
   /**
    * Show info notification
@@ -189,7 +137,7 @@ export default {
     if (this._isShowInfoNotification()) {
       atom.notifications.addInfo(message);
     }
-  },
+  }
 
   /**
    * Show error notification
@@ -201,7 +149,7 @@ export default {
     if (this._isShowErrorNotification()) {
       atom.notifications.addError(message);
     }
-  },
+  }
 
   /**
    * Check if info notifications should be shown
@@ -211,7 +159,7 @@ export default {
    */
   _isShowInfoNotification() {
     return atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addInfo;
-  },
+  }
 
   /**
    * Check if error notifications should be shown
@@ -221,7 +169,7 @@ export default {
    */
   _isShowErrorNotification() {
     return atom.config.get('css-comb.showNotifications') && atom.notifications && atom.notifications.addError;
-  },
+  }
 
   /**
    * Check if on save option enabled
@@ -231,7 +179,7 @@ export default {
    */
   _isOnSave() {
     return atom.config.get('css-comb.shouldUpdateOnSave');
-  },
+  }
 
   /**
    * Check if file is in allowed gramma list
@@ -243,7 +191,7 @@ export default {
    */
   _isAllowedGrama(editor) {
     return allowedGrammas.indexOf(editor.getGrammar().name.toLowerCase()) !== -1;
-  },
+  }
 
   /**
    * Search and load csscomb config
@@ -276,7 +224,7 @@ export default {
         return CSScomb.getConfig(atom.config.get('css-comb.predef'));
       }
     }
-  },
+  }
 
   /**
    * Return selected text for current opened file
@@ -286,7 +234,7 @@ export default {
    */
   _getSelectedText() {
     return atom.workspace.getActiveTextEditor().getSelectedText();
-  },
+  }
 
   /**
    * Return whole text for current active editor
@@ -297,4 +245,4 @@ export default {
   _getText() {
     return atom.workspace.getActiveTextEditor().getText();
   }
-};
+}
