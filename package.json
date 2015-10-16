@@ -7,8 +7,12 @@
   "license": "MIT",
   "scripts": {
     "build": "babel -d ./lib ./src",
-    "watch": "babel -d ./lib ./src --watch"
+    "watch": "babel -d ./lib ./src --watch",
+    "eslint": "eslint ./src"
   },
+  "pre-commit": [
+    "eslint"
+  ],
   "engines": {
     "atom": ">0.50.0"
   },
@@ -18,6 +22,7 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babel-eslint": "^4.1.3",
-    "eslint": "^1.6.0"
+    "eslint": "^1.6.0",
+    "pre-commit": "^1.1.1"
   }
 }
