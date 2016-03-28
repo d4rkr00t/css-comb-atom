@@ -1,7 +1,7 @@
 {
   "name": "css-comb",
   "main": "./lib/main",
-  "version": "2.4.1",
+  "version": "2.4.2",
   "description": "CSS Comb for Atom",
   "repository": "https://github.com/d4rkr00t/css-comb-atom",
   "license": "MIT",
