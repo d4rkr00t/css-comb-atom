@@ -19,7 +19,7 @@ export default class CssComb {
       'css-comb:run': () => this.comb()
     }));
 
-    this._editorObserver = atom.workspace.observeTextEditors(editor => this.handleEvents(editor));
+    this._editorObserver = atom.workspace.observeTextEditors((editor) => this.handleEvents(editor));
   }
 
   deactivate() {
@@ -71,12 +71,13 @@ export default class CssComb {
 
     try {
       const processedString = comb.processString(text, { syntax });
+
       textEditor.setText(processedString);
 
       this._showInfoNotification('File processed by csscomb');
     } catch (err) {
       this._showErrorNotification(err.message);
-      console.error(err);
+      console.error(err); // eslint-disable-line
     }
   }
 
@@ -105,7 +106,7 @@ export default class CssComb {
       }
     } catch (err) {
       this._showErrorNotification(err.message);
-      console.error(err);
+      console.error(err); // eslint-disable-line
     }
   }
 
@@ -211,19 +212,19 @@ export default class CssComb {
 
     if (configPath) {
       return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-    } else {
-      configPath = atom.config.get('css-comb.customConfig');
-
-      if (configPath && configPath.match(/^\~/)) {
-        configPath = path.join(getUserHome(), configPath.replace(/^\~\//, ''));
-      }
-
-      if (configPath && fs.existsSync(configPath)) {
-        return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
-      } else {
-        return CSScomb.getConfig(atom.config.get('css-comb.predef'));
-      }
     }
+
+    configPath = atom.config.get('css-comb.customConfig');
+
+    if (configPath && configPath.match(/^\~/)) {
+      configPath = path.join(getUserHome(), configPath.replace(/^\~\//, ''));
+    }
+
+    if (configPath && fs.existsSync(configPath)) {
+      return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+    }
+
+    return CSScomb.getConfig(atom.config.get('css-comb.predef'));
   }
 
   /**
