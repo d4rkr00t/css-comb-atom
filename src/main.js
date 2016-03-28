@@ -47,7 +47,7 @@ module.exports = {
   },
 
   activate(state) {
-    const CssComb = require('./css-comb');
+    const CssComb = require('./css-comb').default;
 
     this.instance = new CssComb(state);
   },
