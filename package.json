@@ -24,7 +24,7 @@
     "babel-eslint": "^6.0.2",
     "babel-preset-es2015-loose": "^7.0.0",
     "cz-conventional-changelog": "^1.1.5",
-    "eslint": "^2.5.3",
+    "eslint": "^2.6.0",
     "pre-commit": "^1.1.2"
   },
   "config": {
