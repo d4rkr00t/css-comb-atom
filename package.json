@@ -23,7 +23,7 @@
     "babel-cli": "^6.7.5",
     "babel-eslint": "^6.0.2",
     "babel-preset-es2015-loose": "^7.0.0",
-    "cz-conventional-changelog": "^1.1.5",
+    "cz-conventional-changelog": "^1.1.6",
     "eslint": "^2.9.0",
     "pre-commit": "^1.1.2"
   },
