@@ -20,7 +20,7 @@
     "csscomb": "^3.1.8"
   },
   "devDependencies": {
-    "babel-cli": "^6.7.7",
+    "babel-cli": "^6.8.0",
     "babel-eslint": "^6.0.4",
     "babel-preset-es2015-loose": "^7.0.0",
     "cz-conventional-changelog": "^1.1.6",
