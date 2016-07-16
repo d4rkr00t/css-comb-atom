@@ -3,6 +3,7 @@ import CSScomb from 'csscomb';
 
 import path from 'path';
 import fs from 'fs';
+import minimatch from 'minimatch';
 import { CompositeDisposable } from 'atom';
 
 const allowedGrammas = ['css', 'less', 'scss', 'sass', 'styl'];
@@ -42,11 +43,18 @@ export default class CssComb {
 
   /**
    * @private
+   *
+   * @returns {void}
    */
   comb() {
     const filePath = atom.workspace.getActivePaneItem().getPath();
+    const relativeFilePath = atom.project.relativizePath(filePath)[1];
     const config = this._getConfig(filePath);
     const selectedText = this._getSelectedText();
+
+    if (this._isIgnored(config.exclude, relativeFilePath)) {
+      return this._showInfoNotification('File is ignored in csscomb config');
+    }
 
     if (selectedText) {
       !this._isOnSave() && this._processSelection(selectedText, config);
@@ -192,6 +200,20 @@ export default class CssComb {
    */
   _isAllowedGrama(editor) {
     return allowedGrammas.indexOf(editor.getGrammar().name.toLowerCase()) !== -1;
+  }
+
+  /**
+   * Returns true if file is in exclude list
+   * @private
+   *
+   * @param {String[]} exclude - patterns for excluding file pathes
+   * @param {String} filePath
+   *
+   * @returns {Boolean}
+   */
+  _isIgnored(exclude, filePath) {
+    if (!exclude) return false;
+    return exclude.some((pattern) => minimatch(filePath, pattern));
   }
 
   /**
