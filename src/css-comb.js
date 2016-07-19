@@ -48,11 +48,15 @@ export default class CssComb {
    */
   comb() {
     const filePath = atom.workspace.getActivePaneItem().getPath();
-    const relativeFilePath = atom.project.relativizePath(filePath)[1];
-    const config = this._getConfig(filePath);
+    const configPath = this._getConfigPath(filePath);
+    const config = this._getConfig(configPath);
     const selectedText = this._getSelectedText();
+    const relativeFilePath = atom.project.relativizePath(filePath)[1];
+    const filePathRelativeToConfig = configPath
+      ? path.relative(path.dirname(atom.project.relativizePath(configPath)[1]), relativeFilePath)
+      : relativeFilePath;
 
-    if (this._isIgnored(config.exclude, relativeFilePath)) {
+    if (this._isIgnored(config.exclude, filePathRelativeToConfig)) {
       return this._showInfoNotification('File is ignored in csscomb config');
     }
 
@@ -217,21 +221,30 @@ export default class CssComb {
   }
 
   /**
-   * Search and load csscomb config
+   * Search config using builtin csscomb method
    * @private
    *
-   * @param {String} filePath from where start searching
+   * @param {String} filePath
+   *
+   * @returns {String}
+   */
+  _getConfigPath(filePath) {
+    if (!atom.config.get('css-comb.shouldNotSearchConfig')) {
+      const configPath = path.join(path.dirname(filePath), '.csscomb.json');
+
+      return CSScomb.getCustomConfigPath(configPath);
+    }
+  }
+
+  /**
+   * Load csscomb config
+   * @private
+   *
+   * @param {String} configPath
    *
    * @returns {Object} csscomb config
    */
-  _getConfig(filePath) {
-    let configPath;
-
-    if (!atom.config.get('css-comb.shouldNotSearchConfig')) {
-      configPath = path.join(path.dirname(filePath), '.csscomb.json');
-      configPath = CSScomb.getCustomConfigPath(configPath);
-    }
-
+  _getConfig(configPath) {
     if (configPath) {
       return JSON.parse(fs.readFileSync(configPath, 'utf-8'));
     }
