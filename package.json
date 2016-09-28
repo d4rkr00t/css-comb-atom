@@ -21,7 +21,7 @@
     "minimatch": "^3.0.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.11.4",
+    "babel-cli": "^6.16.0",
     "babel-eslint": "^6.0.4",
     "babel-preset-es2015-loose": "^8.0.0",
     "cz-conventional-changelog": "^1.1.6",
